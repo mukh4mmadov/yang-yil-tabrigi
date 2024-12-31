@@ -26,10 +26,18 @@ const App = () => {
   const [name, setName] = useState("");
   const [greeting, setGreeting] = useState("");
   const [message, setMessage] = useState("");
+  const [isNameEntered, setIsNameEntered] = useState(false);
 
   const fullGreeting = "Assalomu alaykum, hurmatli ";
   const fullMessage =
     "Sizni kirib kelayotgan 2025-yil bilan chin dildan tabriklaymiz! Yangi yil hayotingizga baxt, omad va muvaffaqiyat olib kelsin. Yaqinlaringiz bilan sog‘-salomat, shod-xurram damlarni o‘tkazishingizni tilab qolamiz. Yangi yil yangi imkoniyatlar, yangi g‘oyalarga boy bo‘lishini istaymiz. Barcha niyatlaringiz amalga oshsin!";
+
+  const handleNameSubmit = (event) => {
+    event.preventDefault();
+    const nameInput = event.target.elements.name.value.trim();
+    setName(nameInput || "Mehmon");
+    setIsNameEntered(true);
+  };
 
   useEffect(() => {
     const targetDate = new Date("2025-01-01T00:00:00").getTime();
@@ -55,77 +63,103 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const userName = prompt("Ismingizni kiriting:");
-    setName(userName || "Mehmon");
-  }, []);
+    if (isNameEntered) {
+      let currentText = "";
+      let i = 0;
+
+      const interval = setInterval(() => {
+        if (i < fullGreeting.length) {
+          currentText += fullGreeting[i];
+          setGreeting(currentText);
+          i++;
+        } else {
+          clearInterval(interval);
+        }
+      }, 100);
+
+      return () => clearInterval(interval);
+    }
+  }, [isNameEntered]);
 
   useEffect(() => {
-    let currentText = "";
-    let i = 0;
+    if (isNameEntered) {
+      let currentText = "";
+      let i = 0;
 
-    const interval = setInterval(() => {
-      if (i < fullGreeting.length) {
-        currentText += fullGreeting[i];
-        setGreeting(currentText);
-        i++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 100);
+      const interval = setInterval(() => {
+        if (i < fullMessage.length) {
+          currentText += fullMessage[i];
+          setMessage(currentText);
+          i++;
+        } else {
+          clearInterval(interval);
+        }
+      }, 50);
 
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    let currentText = "";
-    let i = 0;
-
-    const interval = setInterval(() => {
-      if (i < fullMessage.length) {
-        currentText += fullMessage[i];
-        setMessage(currentText);
-        i++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 50);
-
-    return () => clearInterval(interval);
-  }, []);
+      return () => clearInterval(interval);
+    }
+  }, [isNameEntered]);
 
   return (
     <div className="bg-gradient-to-r from-blue-900 via-purple-900 to-black min-h-screen text-white flex flex-col items-center justify-center p-4 relative overflow-hidden">
       <Snowfall />
 
-      <h1 className="text-4xl font-bold mb-4 animate-pulse">
-        Yangi Yilga Qolgan Vaqt
-      </h1>
-      <div className="flex space-x-4">
-        {["Kun", "Soat", "Minut", "Soniya"].map((label, idx) => (
-          <div
-            key={idx}
-            className="text-center transition-transform transform hover:scale-110"
+      {!isNameEntered && (
+        <form
+          onSubmit={handleNameSubmit}
+          className="absolute top-1/2 transform -translate-y-1/2"
+        >
+          <label htmlFor="name" className="text-xl font-bold mb-4">
+            Ismingizni kiriting:
+          </label>
+          <input
+            type="text"
+            id="name"
+            className="p-2 rounded"
+            placeholder="Ismingiz"
+          />
+          <button
+            type="submit"
+            className="ml-4 p-2 bg-blue-600 text-white rounded"
           >
-            <div className="text-3xl font-extrabold">
-              {Object.values(timeLeft)[idx] || 0}
-            </div>
-            <div className="text-sm">{label}</div>
+            Tasdiqlash
+          </button>
+        </form>
+      )}
+
+      {isNameEntered && (
+        <>
+          <h1 className="text-4xl font-bold mb-4 animate-pulse">
+            Yangi Yilga Qolgan Vaqt
+          </h1>
+          <div className="flex space-x-4">
+            {["Kun", "Soat", "Minut", "Soniya"].map((label, idx) => (
+              <div
+                key={idx}
+                className="text-center transition-transform transform hover:scale-110"
+              >
+                <div className="text-3xl font-extrabold">
+                  {Object.values(timeLeft)[idx] || 0}
+                </div>
+                <div className="text-sm">{label}</div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      <div className="mt-10 text-center">
-        <h2 className="text-2xl font-bold transition-opacity duration-700 opacity-100">
-          {greeting + name}!
-        </h2>
-        <p className="mt-4 text-lg leading-7 max-w-xl transition-opacity duration-700 opacity-100">
-          {message}
-        </p>
-      </div>
+          <div className="mt-10 text-center">
+            <h2 className="text-2xl font-bold transition-opacity duration-700 opacity-100">
+              {greeting + name}!
+            </h2>
+            <p className="mt-4 text-lg leading-7 max-w-xl transition-opacity duration-700 opacity-100">
+              {message}
+            </p>
+          </div>
 
-      <footer className="mt-10 text-center">
-        <p className="text-sm">Hurmat bilan, Muhammadov Ozodbek</p>
-      </footer>
+          <footer className="mt-10 text-center">
+            <p className="text-sm">Hurmat bilan, Muhammadov Ozodbek</p>
+          </footer>
+        </>
+      )}
     </div>
   );
 };
