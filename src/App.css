@@ -1,51 +1,28 @@
-@keyframes snow {
-  0% {
-    transform: translateY(-10px) translateX(0) rotate(0deg);
-    opacity: 1;
-  }
-  50% {
-    transform: translateY(50vh) translateX(-20px) rotate(180deg);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translateY(100vh) translateX(20px) rotate(360deg);
-    opacity: 0;
-  }
-}
-
 .snowflake {
   position: absolute;
-  top: -10px;
-  left: 50%;
+  top: -5%;
   width: 10px;
   height: 10px;
-  background-color: white;
+  background: white;
   border-radius: 50%;
-  opacity: 0.8;
-  animation: snow 10s linear infinite;
-  animation-delay: calc(var(--i) * -0.5s);
+  animation: fall linear infinite;
 }
 
-.snowflake:nth-child(odd) {
-  width: 8px;
-  height: 8px;
-  animation-duration: 12s;
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+  }
 }
 
-.snowflake:nth-child(even) {
-  width: 12px;
-  height: 12px;
-  animation-duration: 14s;
-}
-
-.snowflake:nth-child(4n) {
-  background-color: #d1e7ff;
-}
-
-.snowflake:nth-child(5n) {
-  background-color: #ffffff;
-}
-
-.snowflake:nth-child(6n) {
-  background-color: #b3d9ff;
+.snowfall-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
 }

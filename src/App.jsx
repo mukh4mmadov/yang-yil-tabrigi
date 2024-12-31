@@ -5,12 +5,16 @@ const Snowfall = () => {
   const snowflakes = Array.from({ length: 75 });
 
   return (
-    <div aria-hidden="true">
+    <div aria-hidden="true" className="snowfall-container">
       {snowflakes.map((_, index) => (
         <div
           key={index}
           className="snowflake"
-          style={{ left: `${Math.random() * 100}vw`, "--i": index }}
+          style={{
+            left: `${Math.random() * 100}vw`,
+            animationDelay: `${Math.random() * 5}s`,
+            animationDuration: `${5 + Math.random() * 5}s`,
+          }}
         ></div>
       ))}
     </div>
@@ -93,10 +97,15 @@ const App = () => {
     <div className="bg-gradient-to-r from-blue-900 via-purple-900 to-black min-h-screen text-white flex flex-col items-center justify-center p-4 relative overflow-hidden">
       <Snowfall />
 
-      <h1 className="text-4xl font-bold mb-4">Yangi Yilga Qolgan Vaqt</h1>
+      <h1 className="text-4xl font-bold mb-4 animate-pulse">
+        Yangi Yilga Qolgan Vaqt
+      </h1>
       <div className="flex space-x-4">
         {["Kun", "Soat", "Minut", "Soniya"].map((label, idx) => (
-          <div key={idx} className="text-center">
+          <div
+            key={idx}
+            className="text-center transition-transform transform hover:scale-110"
+          >
             <div className="text-3xl font-extrabold">
               {Object.values(timeLeft)[idx] || 0}
             </div>
@@ -106,8 +115,12 @@ const App = () => {
       </div>
 
       <div className="mt-10 text-center">
-        <h2 className="text-2xl font-bold">{greeting + name}!</h2>
-        <p className="mt-4 text-lg leading-7 max-w-xl">{message}</p>
+        <h2 className="text-2xl font-bold transition-opacity duration-700 opacity-100">
+          {greeting + name}!
+        </h2>
+        <p className="mt-4 text-lg leading-7 max-w-xl transition-opacity duration-700 opacity-100">
+          {message}
+        </p>
       </div>
 
       <footer className="mt-10 text-center">
