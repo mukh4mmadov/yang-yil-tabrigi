@@ -107,20 +107,20 @@ const App = () => {
       {!isNameEntered && (
         <form
           onSubmit={handleNameSubmit}
-          className="absolute top-1/2 transform -translate-y-1/2"
+          className="absolute top-1/2 transform -translate-y-1/2 w-full max-w-xs px-4 py-6 bg-white bg-opacity-50 rounded-md shadow-lg"
         >
-          <label htmlFor="name" className="text-xl font-bold mb-4">
+          <label htmlFor="name" className="text-xl font-bold mb-4 text-black">
             Ismingizni kiriting:
           </label>
           <input
             type="text"
             id="name"
-            className="p-2 rounded"
+            className="p-2 w-full rounded border border-gray-300 text-black bg-white"
             placeholder="Ismingiz"
           />
           <button
             type="submit"
-            className="ml-4 p-2 bg-blue-600 text-white rounded"
+            className="ml-4 mt-4 p-2 bg-blue-600 text-white rounded w-full"
           >
             Tasdiqlash
           </button>
