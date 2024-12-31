@@ -1,19 +1,21 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 
-const Snowfall = () => {
-  const snowflakes = Array.from({ length: 75 });
+
+const Starfall = () => {
+  const stars = Array.from({ length: 75 });
 
   return (
-    <div aria-hidden="true" className="snowfall-container">
-      {snowflakes.map((_, index) => (
+    <div aria-hidden="true" className="starfall-container">
+      {stars.map((_, index) => (
         <div
           key={index}
-          className="snowflake"
+          className="star"
           style={{
             left: `${Math.random() * 100}vw`,
             animationDelay: `${Math.random() * 5}s`,
             animationDuration: `${5 + Math.random() * 5}s`,
+            opacity: Math.random(),
           }}
         ></div>
       ))}
@@ -21,23 +23,53 @@ const Snowfall = () => {
   );
 };
 
+
+const Fireworks = () => {
+  const fireworks = Array.from({ length: 12 }); 
+
+  return (
+    <div className="fireworks-container">
+      {fireworks.map((_, index) => (
+        <div
+          key={index}
+          className="firework"
+          style={{
+            top: `${Math.random() * 50 + 50}vh`, 
+            left: `${Math.random() * 100}vw`, 
+            animationDuration: `${Math.random() * 3 + 2}s`, 
+            animationDelay: `${Math.random() * 2}s`,
+          }}
+        ></div>
+      ))}
+    </div>
+  );
+};
+
+
 const App = () => {
   const [timeLeft, setTimeLeft] = useState({});
   const [name, setName] = useState("");
   const [greeting, setGreeting] = useState("");
   const [message, setMessage] = useState("");
   const [isNameEntered, setIsNameEntered] = useState(false);
+  const [showFireworks, setShowFireworks] = useState(false);
 
   const fullGreeting = "Assalomu alaykum, hurmatli ";
   const fullMessage =
     "Sizni kirib kelayotgan 2025-yil bilan chin dildan tabriklaymiz! Yangi yil hayotingizga baxt, omad va muvaffaqiyat olib kelsin. Yaqinlaringiz bilan sog‘-salomat, shod-xurram damlarni o‘tkazishingizni tilab qolamiz. Yangi yil yangi imkoniyatlar, yangi g‘oyalarga boy bo‘lishini istaymiz. Barcha niyatlaringiz amalga oshsin!";
 
+
   const handleNameSubmit = (event) => {
     event.preventDefault();
     const nameInput = event.target.elements.name.value.trim();
-    setName(nameInput || "Mehmon");
-    setIsNameEntered(true);
+    if (nameInput) {
+      setName(nameInput);
+      setIsNameEntered(true);
+    } else {
+      alert("Ismingizni kiriting!");
+    }
   };
+
 
   useEffect(() => {
     const targetDate = new Date("2025-01-01T00:00:00").getTime();
@@ -62,6 +94,7 @@ const App = () => {
     return () => clearInterval(timer);
   }, []);
 
+
   useEffect(() => {
     if (isNameEntered) {
       let currentText = "";
@@ -75,12 +108,13 @@ const App = () => {
         } else {
           clearInterval(interval);
         }
-      }, 100);
+      }, 150);
 
       return () => clearInterval(interval);
     }
   }, [isNameEntered]);
 
+  
   useEffect(() => {
     if (isNameEntered) {
       let currentText = "";
@@ -92,9 +126,10 @@ const App = () => {
           setMessage(currentText);
           i++;
         } else {
+          setShowFireworks(true); 
           clearInterval(interval);
         }
-      }, 50);
+      }, 100);
 
       return () => clearInterval(interval);
     }
@@ -102,12 +137,11 @@ const App = () => {
 
   return (
     <div className="bg-gradient-to-r from-blue-900 via-purple-900 to-black min-h-screen text-white flex flex-col items-center justify-center p-4 relative overflow-hidden">
-      <Snowfall />
-
+      <Starfall />
       {!isNameEntered && (
         <form
           onSubmit={handleNameSubmit}
-          className="absolute top-1/2 transform -translate-y-1/2 w-full max-w-xs px-4 py-6 bg-white bg-opacity-50 rounded-md shadow-lg"
+          className="absolute top-1/2 transform -translate-y-1/2 w-full max-w-xs px-6 py-8 bg-white bg-opacity-60 rounded-md shadow-lg"
         >
           <label htmlFor="name" className="text-xl font-bold mb-4 text-black">
             Ismingizni kiriting:
@@ -115,18 +149,19 @@ const App = () => {
           <input
             type="text"
             id="name"
-            className="p-2 w-full rounded border border-gray-300 text-black bg-white"
+            name="name"
+            className="p-3 w-full rounded border border-gray-300 text-black bg-white"
             placeholder="Ismingiz"
+            required
           />
           <button
             type="submit"
-            className="ml-4 mt-4 p-2 bg-blue-600 text-white rounded w-full"
+            className="mt-6 p-3 bg-blue-600 text-white rounded w-full hover:bg-blue-700"
           >
             Tasdiqlash
           </button>
         </form>
       )}
-
       {isNameEntered && (
         <>
           <h1 className="text-4xl font-bold mb-4 animate-pulse">
@@ -154,6 +189,8 @@ const App = () => {
               {message}
             </p>
           </div>
+
+          {showFireworks && <Fireworks />}
 
           <footer className="mt-10 text-center">
             <p className="text-sm">Hurmat bilan, Muhammadov Ozodbek</p>

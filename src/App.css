@@ -1,28 +1,67 @@
-.snowflake {
-  position: absolute;
-  top: -5%;
-  width: 10px;
-  height: 10px;
-  background: white;
-  border-radius: 50%;
-  animation: fall linear infinite;
-}
-
-@keyframes fall {
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-  100% {
-    transform: translateY(100vh) rotate(360deg);
-  }
-}
-
-.snowfall-container {
+.fireworks-container {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
   pointer-events: none;
+  z-index: 10;
+}
+
+.firework {
+  position: absolute;
+  bottom: 0;
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  animation: firework-animation 3s ease-out forwards;
+}
+
+@keyframes firework-animation {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+    bottom: 0;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-100vh) scale(2);
+    opacity: 0;
+  }
+}
+
+.starfall-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  animation: starfall-animation 3s linear infinite;
+}
+
+@keyframes starfall-animation {
+  0% {
+    transform: translateY(-100px) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) scale(1);
+    opacity: 0;
+  }
 }
