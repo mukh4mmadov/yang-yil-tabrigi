@@ -1,0 +1,51 @@
+@keyframes snow {
+  0% {
+    transform: translateY(-10px) translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(50vh) translateX(-20px) rotate(180deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(100vh) translateX(20px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.snowflake {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: snow 10s linear infinite;
+  animation-delay: calc(var(--i) * -0.5s);
+}
+
+.snowflake:nth-child(odd) {
+  width: 8px;
+  height: 8px;
+  animation-duration: 12s;
+}
+
+.snowflake:nth-child(even) {
+  width: 12px;
+  height: 12px;
+  animation-duration: 14s;
+}
+
+.snowflake:nth-child(4n) {
+  background-color: #d1e7ff;
+}
+
+.snowflake:nth-child(5n) {
+  background-color: #ffffff;
+}
+
+.snowflake:nth-child(6n) {
+  background-color: #b3d9ff;
+}
